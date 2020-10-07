@@ -1,0 +1,129 @@
+<html>
+<body>
+<script>
+var animate = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (callback) {
+        window.setTimeout(callback, 1000/60)
+    };
+var canvas = document.createElement("canvas");
+var width = 1000;
+var height = 700;
+canvas.width = width;
+canvas.height = height;
+var context = canvas.getContext('2d');
+
+var playerX = 0;
+var playerY = 0;
+var direcX = 1.5;
+var direcY = 1.3;
+
+var pew = new Image();
+  pew.src = "pew.jpg";
+
+var backColor;
+var backColor1;
+var backColor2;
+var backColor3;
+var backColor4;
+var backColor5;
+
+
+var keysDown = {};     //This creates var for keysDown event
+
+
+
+
+var render = function () {
+
+   context.fillStyle = "#" + backColor + "" + backColor1 + "" + backColor2 + "" + backColor3 + "" + backColor4 + "" + backColor5 + "";                 //Example of Drawing a screen & below some text to the canvas
+   context.fillRect(0, 0, width, height);
+
+   context.fillStyle = "#f7ff0f";   //yellow
+   //context.fillRect(playerX, playerY, 50, 50);
+   context.drawImage(pew, playerX, playerY, 200, 100);
+
+};
+
+
+
+
+var update = function() {
+keyPress();
+
+if(playerX < 0 || playerX > (width - 200)) {
+  direcX = direcX * (-1);
+  backColor = Math.floor((Math.random() *9 ) + 1);
+  backColor1 = Math.floor((Math.random() *9 ) + 1);
+  backColor2 = Math.floor((Math.random() *9 ) + 1);
+  backColor3 = Math.floor((Math.random() *9 ) + 1);
+  backColor4 = Math.floor((Math.random() *9 ) + 1);
+  backColor5 = Math.floor((Math.random() *9 ) + 1);
+}
+
+if(playerY < 0 || playerY > (height - 100) ) {
+  direcY = direcY * (-1);
+  backColor = Math.floor((Math.random() *9 ) + 1);
+  backColor1 = Math.floor((Math.random() *9 ) + 1);
+  backColor2 = Math.floor((Math.random() *9 ) + 1);
+  backColor3 = Math.floor((Math.random() *9 ) + 1);
+  backColor4 = Math.floor((Math.random() *9 ) + 1);
+  backColor5 = Math.floor((Math.random() *9 ) + 1);
+}
+
+playerX = playerX + direcX;
+playerY = playerY + direcY;
+
+
+};
+
+
+
+var step = function() {
+update();
+render();
+animate(step);
+};
+
+
+
+var keyPress = function() {
+
+for(var key in keysDown) {
+    var value = Number(key);
+
+   if (value == 37) {   //37 = left
+     playerX = playerX - 4;
+	    //Put stuff for keypress to activate here
+   } else if(value == 39){  //38 = right
+     playerX = playerX + 4;
+   } else if(value == 40){  //40 = down
+     playerY = playerY + 4;
+   } else if(value == 38){  //39 = up
+     playerY = playerY - 4;
+   }
+
+ }
+
+};
+
+
+
+
+
+
+document.body.appendChild(canvas);
+animate(step);
+
+
+window.addEventListener("keydown", function (event) {
+keysDown[event.keyCode] = true;
+});
+
+
+window.addEventListener("keyup", function (event) {
+    delete keysDown[event.keyCode];
+});
+
+</script>
+
+</body>
+</html>
